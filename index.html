@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>معلم الإنجليزية</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f3f6fb; color: #172033; font-family: Arial, sans-serif; }
+  header { background: linear-gradient(135deg, #2463eb, #1e3a8a, #7c3aed, #2463eb); background-size: 300% 300%; animation: gradMove 14s ease infinite; color: white; padding: 22px 16px; text-align: center; }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+  header p { margin: 0; opacity: .9; }
+  nav { display: flex; gap: 6px; padding: 10px; background: white; position: sticky; top: 0; z-index: 5; box-shadow: 0 2px 8px #0001; overflow-x: auto; }
+  nav button { flex: 1; min-width: 92px; padding: 10px 8px; border: 0; border-radius: 8px; background: #eef2f9; font: inherit; font-weight: bold; cursor: pointer; color: #172033; white-space: nowrap; }
+  nav button.active { background: #2463eb; color: white; }
+  main { max-width: 760px; margin: auto; padding: 14px; }
+  .tab { display: none; }
+  .tab.active { display: block; }
+  .card { background: white; border-radius: 14px; padding: 18px; margin: 14px 0; box-shadow: 0 3px 14px #15294a12; }
+  .card.inner { box-shadow: none; border: 1px solid #e5e9f0; margin-top: 12px; }
+  h2 { margin-top: 0; }
+  button.btn { padding: 11px 16px; border: 0; border-radius: 8px; background: #2463eb; color: white; font: inherit; font-weight: bold; cursor: pointer; }
+  button.btn:hover { background: #174fc8; }
+  button.btn.green { background: #16a34a; } button.btn.red { background: #d94343; } button.btn.gray { background: #475569; }
+  button.btn.mic { background: #e11d48; }
+  button.btn.mic.rec { animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: .55; } }
+  .small { color: #657087; font-size: .9rem; }
+  .tip { background: #fff8e1; border-right: 4px solid #f5b100; padding: 10px 12px; border-radius: 8px; margin-top: 12px; line-height: 1.6; }
+  .item { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 0; border-top: 1px solid #e5e9f0; }
+  .item .en { font-weight: bold; font-size: 1.1rem; direction: ltr; text-align: left; }
+  .item .ar { color: #475569; }
+  .item .btns { display: flex; gap: 6px; flex-shrink: 0; }
+  .speak { background: #e0e9ff; border: 0; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; font-size: 1.05rem; flex-shrink: 0; }
+  .lessonlist { display: grid; gap: 10px; }
+  .lessonbtn { text-align: right; padding: 14px; border: 1px solid #ccd4e0; background: white; border-radius: 10px; font: inherit; cursor: pointer; }
+  .lessonbtn:hover { border-color: #2463eb; }
+  .lessonbtn .done { color: #16a34a; float: left; }
+  .lvl { display: flex; flex-direction: column; gap: 3px; text-align: right; width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ccd4e0; border-radius: 10px; background: white; font: inherit; cursor: pointer; }
+  .lvl.sel { border-color: #2463eb; background: #eaf0ff; }
+  .flash { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border: 2px dashed #b8c6e0; border-radius: 14px; padding: 20px; cursor: pointer; background: #fafcff; }
+  .flash .word { font-size: 2rem; font-weight: bold; direction: ltr; }
+  .flash .meaning { font-size: 1.6rem; color: #2463eb; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  .row > * { flex: 1; min-width: 120px; }
+  select, input, textarea { width: 100%; padding: 10px; border: 1px solid #ccd4e0; border-radius: 8px; font: inherit; }
+  input[type=checkbox] { width: auto; }
+  input[type=range] { padding: 0; }
+  textarea { min-height: 70px; resize: vertical; }
+  label { display: block; margin: 12px 0 6px; font-weight: bold; }
+  label.chk { font-weight: normal; margin: 6px 0; }
+  .opt { display: block; width: 100%; text-align: right; margin: 8px 0; padding: 13px; border: 2px solid #ccd4e0; border-radius: 10px; background: white; font: inherit; font-size: 1.05rem; cursor: pointer; }
+  .opt.correct { border-color: #16a34a; background: #e8f7ee; }
+  .opt.wrong { border-color: #d94343; background: #fdeaea; }
+  .bar { height: 10px; background: #e5e9f0; border-radius: 6px; overflow: hidden; margin: 8px 0; }
+  .bar > div { height: 100%; background: #2463eb; width: 0; transition: width .3s; }
+  .stats { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stat { flex: 1; min-width: 110px; background: #f3f6fb; padding: 12px; border-radius: 9px; text-align: center; }
+  .stat strong { font-size: 1.4rem; }
+  .entry { border-top: 1px solid #e5e9f0; padding: 10px 0; line-height: 1.6; }
+  #warning { display: none; background: #fff3cd; color: #664d03; padding: 12px; border-radius: 9px; margin: 10px 0; }
+  .ltr { direction: ltr; unicode-bidi: embed; }
+  .phrase { font-size: 1.5rem; font-weight: bold; direction: ltr; text-align: center; margin: 12px 0 4px; }
+  .phrase.sm { font-size: 1.15rem; }
+  .bubble { max-width: 90%; padding: 10px 12px; border-radius: 12px; margin: 8px 0; line-height: 1.5; }
+  .bubble.coach { background: #eef2f9; }
+  .bubble.me { background: #dcfce7; margin-right: auto; }
+  .wok { color: #15803d; font-weight: bold; }
+  .wbad { color: #dc2626; font-weight: bold; text-decoration: underline; }
+  .res { font-size: 1.2rem; margin-top: 10px; }
+  .err { color: #b91c1c; }
+  .center { text-align: center; }
+
+  /* ---------- animations ---------- */
+  @keyframes gradMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  @keyframes popIn { 0% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  @keyframes floaty { 50% { transform: translateY(-6px) rotate(-6deg); } }
+  @keyframes confettiFall { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(var(--dx), 105vh) rotate(var(--rot)); } }
+  @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+  .tab.active { animation: fadeUp .35s ease; }
+  .card { transition: transform .2s, box-shadow .2s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px #15294a1f; }
+  .card.inner:hover { transform: none; box-shadow: none; }
+  button.btn { transition: transform .1s, background .2s; }
+  button.btn:active { transform: scale(.96); }
+  .speak { transition: transform .15s; }
+  .speak:hover { transform: scale(1.12); }
+  .lessonbtn, .lvl, .opt, nav button { transition: transform .15s, border-color .2s, background .2s; }
+  .lessonbtn:hover, .lvl:hover { transform: translateX(-3px); }
+  .flame { display: inline-block; animation: bounce 1.2s ease-in-out infinite; }
+  header .logo { display: inline-block; animation: floaty 3s ease-in-out infinite; }
+  .bubble { animation: popIn .3s ease; }
+  .opt.wrong { animation: shake .4s; }
+  .opt.correct { animation: popIn .35s; }
+  .lvl.sel { animation: popIn .3s; }
+  .flash.swap { animation: popIn .25s; }
+  .confetti { position: fixed; top: -14px; width: 9px; height: 14px; z-index: 100; pointer-events: none; border-radius: 2px; animation: confettiFall 1.8s ease-in forwards; }
+  #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #172033; color: white; padding: 12px 18px; border-radius: 24px; z-index: 101; max-width: 90vw; text-align: center; animation: toastIn .3s ease; }
+
+  /* ---------- calendar ---------- */
+  .cal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .cal-head button { min-width: 80px; margin: 0; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; }
+  .cal .dow { text-align: center; font-size: .78rem; color: #657087; font-weight: bold; }
+  .cal .day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; background: #f3f6fb; font-size: .95rem; cursor: pointer; border: 2px solid transparent; user-select: none; line-height: 1.1; }
+  .cal .day.empty { background: none; cursor: default; }
+  .cal .day.on { background: #16a34a; color: white; font-weight: bold; animation: popIn .35s backwards; }
+  .cal .day.on::after { content: "✓"; font-size: .65rem; }
+  .cal .day.missed { background: #fdeaea; color: #b91c1c; }
+  .cal .day.today { border-color: #2463eb; }
+  .cal .day.future { opacity: .35; cursor: default; }
+  .strip { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0; }
+  .strip .d { flex: 1; min-width: 40px; text-align: center; padding: 6px 0; border-radius: 10px; background: #f3f6fb; font-size: .8rem; line-height: 1.4; }
+  .strip .d.on { background: #16a34a; color: white; animation: popIn .35s backwards; }
+  .strip .d.today { outline: 2px solid #2463eb; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; font-size: .85rem; color: #475569; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; margin-left: 4px; }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+  .numgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-top: 12px; }
+  .numcell { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 8px 10px; border: 1px solid #e5e9f0; border-radius: 10px; background: #fff; cursor: pointer; direction: ltr; text-align: left; }
+  .numcell:hover { border-color: #2463eb; }
+  .numcell b { font-size: 1.1rem; color: #2463eb; min-width: 38px; }
+  .numcell span { font-size: .82rem; color: #172033; flex: 1; line-height: 1.25; }
+  .numcell.hit { background: #fff8e1; border-color: #f5b100; box-shadow: 0 0 0 3px #f5b10044; }
+  .numres { margin-top: 12px; padding: 16px; border-radius: 12px; background: #eef4ff; border: 2px solid #2463eb; text-align: center; }
+  .numres .big { font-size: 2.2rem; font-weight: bold; color: #2463eb; direction: ltr; word-break: break-all; }
+  .numres .words { font-size: 1.25rem; font-weight: bold; direction: ltr; margin: 6px 0 10px; }
+  .numchips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .numchips button { padding: 7px 12px; border: 1px solid #ccd4e0; border-radius: 999px; background: white; font: inherit; cursor: pointer; }
+  .numchips button.on { background: #2463eb; color: white; border-color: #2463eb; }
+  #numQ { width: 100%; padding: 12px; font-size: 1.15rem; border: 2px solid #ccd4e0; border-radius: 10px; font-family: inherit; direction: ltr; text-align: center; }
+  #numQ:focus { outline: none; border-color: #2463eb; }
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="logo">🇬🇧</span> معلم الإنجليزية</h1>
+  <p>اختار المستوى ديالك، سمع النطق، وهضر مع الميكرو</p>
+</header>
+<nav>
+  <button data-tab="home" class="active">🏠 الرئيسية</button>
+  <button data-tab="lessons">📘 الدروس</button>
+  <button data-tab="cards">🃏 الكلمات</button>
+  <button data-tab="speak">🗣️ هضر معايا</button>
+  <button data-tab="numbers">🔢 الأرقام</button>
+  <button data-tab="quiz">✅ اختبار</button>
+  <button data-tab="progress">📈 تقدمي</button>
+</nav>
+<main>
+  <div id="warning">⚠️ المتصفح ما مخليش نحفظو البيانات. استعمل «تصدير» فتبويب تقدمي باش ما تضيعش التقدم.</div>
+
+  <!-- HOME -->
+  <section id="home" class="tab active">
+    <div class="card">
+      <h2>مرحبا! Welcome 👋</h2>
+      <label for="nameInput">سميتك (كتبان فالجمل والحوارات)</label>
+      <input id="nameInput" placeholder="مثال: Anas" dir="ltr">
+    </div>
+    <div class="card">
+      <h2>اختار المستوى ديالك</h2>
+      <p class="small">غادي نبداو معاك من المستوى اللي كتختار. تقدر تبدلو فأي وقت.</p>
+      <div id="levelBox"></div>
+      <button class="btn green" id="startNext" style="width:100%;margin-top:10px">▶️ بدا من هنا</button>
+    </div>
+    <div class="card">
+      <h2>إحصائياتك</h2>
+      <div class="stats" id="homeStats"></div>
+    </div>
+    <div class="card">
+      <h2>📅 آخر 14 يوم</h2>
+      <div class="strip" id="homeStrip"></div>
+      <p class="small" id="homeDays"></p>
+      <button class="btn gray" id="openCal" style="width:100%;margin-top:8px">📅 شوف الكالندريي الكامل</button>
+    </div>
+    <div class="card">
+      <h2>🔊 الصوت</h2>
+      <label for="voiceSel">صوت القراءة</label>
+      <select id="voiceSel"></select>
+      <label for="rateRange">السرعة</label>
+      <input type="range" id="rateRange" min="0.5" max="1.1" step="0.05" value="0.9">
+      <button class="btn gray" id="testVoice" style="width:100%;margin-top:12px">🔊 جرّب الصوت</button>
+      <div class="tip">💡 قراءة الصوت 🔊 كتخدم <strong>بلا انترنت</strong> (كتستعمل الأصوات اللي فـ Windows). أما التعرف على هضرتك 🎤 فكيحتاج انترنت.</div>
+    </div>
+  </section>
+
+  <!-- LESSONS -->
+  <section id="lessons" class="tab">
+    <div id="lessonList" class="lessonlist"></div>
+    <div id="lessonView" style="display:none"></div>
+  </section>
+
+  <!-- CARDS -->
+  <section id="cards" class="tab">
+    <div class="card">
+      <h2>بطاقات الكلمات</h2>
+      <label for="deckSel">اختار المجموعة</label>
+      <select id="deckSel"></select>
+      <div class="bar"><div id="deckBar"></div></div>
+      <p class="small" id="deckInfo"></p>
+      <div class="flash" id="flash"></div>
+      <div class="row">
+        <button class="btn gray" id="speakCard">🔊 سمع</button>
+        <button class="btn gray" id="flipCard">↻ قلب</button>
+      </div>
+      <div class="row">
+        <button class="btn green" id="knowBtn">عرفتها ✅</button>
+        <button class="btn red" id="againBtn">نعاود 🔁</button>
+      </div>
+      <button class="btn gray" id="resetDeck" style="margin-top:12px;width:100%">إعادة تعيين هاد المجموعة</button>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section id="numbers" class="tab">
+    <div class="card">
+      <h2>🔢 الأرقام بالإنجليزية</h2>
+      <p class="small">كتب الرقم لي بغيتي (مثلا 347 ولا 15000) وغادي يبان ليك النطق بالإنجليزية بالضبط. تقدر تكتب حتى الكلمة بالإنجليزية (مثلا forty).</p>
+      <input id="numQ" type="search" inputmode="search" placeholder="🔍 قلب على رقم... 347" autocomplete="off">
+      <div id="numRes"></div>
+      <div class="numchips" id="numChips">
+        <button data-r="0-100" class="on">0 – 100</button>
+        <button data-r="101-500">101 – 500</button>
+        <button data-r="501-1000">501 – 1000</button>
+        <button data-r="0-1000">الكل</button>
+      </div>
+      <p class="small" id="numInfo"></p>
+      <div class="numgrid" id="numGrid"></div>
+    </div>
+  </section>
+
+  <!-- SPEAK -->
+  <section id="speak" class="tab">
+    <div class="card">
+      <h2>🗣️ هضر معايا</h2>
+      <div id="srNotice"></div>
+      <div class="row">
+        <button class="btn" id="modeRepeat">🎯 كرر معايا</button>
+        <button class="btn gray" id="modeDialog">💬 حوار</button>
+      </div>
+    </div>
+
+    <div class="card" id="repeatBox">
+      <h2>🎯 كرر معايا</h2>
+      <label for="repLesson">اختار الدرس</label>
+      <select id="repLesson"></select>
+      <div class="small center" id="repCount" style="margin-top:12px"></div>
+      <div class="phrase" id="repPhrase"></div>
+      <div class="small center" id="repAr"></div>
+      <div class="row">
+        <button class="btn gray" id="repListen">🔊 سمع</button>
+        <button class="btn gray" id="repSlow">🐢 بشوية</button>
+        <button class="btn mic" id="repMic">🎤 تكلم</button>
+      </div>
+      <div id="repResult"></div>
+      <div class="row">
+        <button class="btn gray" id="repPrev">← السابق</button>
+        <button class="btn" id="repNext">التالي →</button>
+      </div>
+    </div>
+
+    <div class="card" id="dialogBox" style="display:none">
+      <h2>💬 حوار معايا</h2>
+      <p class="small">أنا (المعلم) كنهضر، وانت كتجاوب بصوتك. كل جواب كنعطيك النقطة ديالو.</p>
+      <label for="dlgSel">اختار الحوار</label>
+      <select id="dlgSel"></select>
+      <label class="chk"><input type="checkbox" id="showHint" checked> إظهار الجواب المقترح</label>
+      <label class="chk"><input type="checkbox" id="showTr" checked> إظهار الترجمة</label>
+      <button class="btn" id="dlgStart" style="width:100%;margin-top:10px">▶️ بدا الحوار</button>
+      <div id="chat"></div>
+      <div id="turnBox"></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="tab">
+    <div class="card" id="quizBox"></div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section id="progress" class="tab">
+    <div class="card">
+      <h2>تقريرك</h2>
+      <div id="report"></div>
+    </div>
+    <div class="card">
+      <h2>📅 أيام التعلم</h2>
+      <div class="cal-head">
+        <button class="btn gray" id="calPrev">السابق</button>
+        <strong id="calTitle"></strong>
+        <button class="btn gray" id="calNext">التالي</button>
+      </div>
+      <div class="cal" id="calendar"></div>
+      <div class="legend">
+        <span><i style="background:#16a34a"></i>تعلمتي</span>
+        <span><i style="background:#fdeaea;border:1px solid #b91c1c"></i>ما تعلمتيش</span>
+        <span><i style="border:2px solid #2463eb"></i>اليوم</span>
+      </div>
+      <p class="small">كل نهار كتخدم فيه (درس، كلمات، اختبار، هضرة) كيتسجل بوحدو. تقدر تكليكي على نهار باش تعلّمو أو تحيّد التعليم ديالو.</p>
+      <div id="calSummary"></div>
+    </div>
+    <div class="card">
+      <h2>تسجيل اليوم</h2>
+      <form id="entryForm">
+        <label for="date">التاريخ</label>
+        <input id="date" type="date" required>
+        <label for="level">قيّم المستوى ديالك اليوم (1 ضعيف — 5 مزيان)</label>
+        <select id="level">
+          <option value="1">1 — باقي البداية</option>
+          <option value="2">2 — تعلمت شوية</option>
+          <option value="3" selected>3 — متوسط</option>
+          <option value="4">4 — مزيان</option>
+          <option value="5">5 — مرتاح فالإنجليزية</option>
+        </select>
+        <label for="minutes">شحال قريتي اليوم؟ بالدقائق</label>
+        <input id="minutes" type="number" min="0" placeholder="مثال: 30">
+        <label for="tasks">المهام اللي كملتي</label>
+        <textarea id="tasks" placeholder="مثال: درس الروتين، حوار فالمطعم"></textarea>
+        <label for="difficulty">شنو كان صعيب عليك؟</label>
+        <textarea id="difficulty" placeholder="مثال: النطق"></textarea>
+        <button class="btn" type="submit" style="width:100%;margin-top:14px">حفظ تقدم اليوم</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>السجلات اليومية</h2>
+      <div id="history"></div>
+    </div>
+    <div class="card">
+      <h2>حفظ البيانات</h2>
+      <p class="small">صدّر بياناتك (المستوى، الدروس، الكلمات، السجلات) لفيشي باش ما تضيعهم، ورجّعهم من بعد.</p>
+      <div class="row">
+        <button class="btn gray" id="exportBtn">تصدير (Export)</button>
+        <button class="btn gray" id="importBtn">استيراد (Import)</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json" style="display:none">
+    </div>
+  </section>
+</main>
+
+<script>
+/* ================= DATA ================= */
+const LEVELS = {
+  1: {
+    name: "مبتدئ", code: "A1", desc: "من الصفر: التحيات، التعريف بالنفس، الأرقام، to be",
+    lessons: [
+      { title: "التحيات (Greetings)", intro: "أول حاجة كنتعلمو: كيفاش نسلمو ونقولو شكرا.",
+        items: [["Hello","سلام / مرحبا"],["Hi","سلام (بسيطة)"],["Good morning","صباح الخير"],["Good evening","مساء الخير"],["Good night","تصبح على خير"],["How are you?","كيف داير؟"],["I'm fine, thank you.","أنا بخير، شكرا."],["And you?","وانت؟"],["Goodbye","بسلامة"],["See you tomorrow.","نشوفك غدا."]],
+        tip: "'How are you?' كتقال بزاف كتحية، والجواب العادي: 'I'm fine, thanks.'" },
+      { title: "كلمات الأدب (Polite words)", intro: "هاد الكلمات كتخليك مؤدب فأي وضعية.",
+        items: [["Please","عافاك"],["Thank you","شكرا"],["Thank you very much","شكرا بزاف"],["You're welcome","عفوا / مرحبا بك"],["Sorry","سمح لي"],["Excuse me","عفاك (باش تنادي/تعدي)"],["Yes","واه"],["No","لا"],["Maybe","يمكن"]],
+        tip: "'Sorry' كتقال ملي تغلط. 'Excuse me' كتقال ملي بغيتي تتسول شي واحد أو تعدي بين الناس." },
+      { title: "قدّم راسك (Introduce yourself)", intro: "كيفاش تقول شكون نتا، شحال فعمرك ومن فين.",
+        items: [["My name is {name}.","سميتي {name}."],["I am 19 years old.","عمري 19 عام."],["I am from Morocco.","أنا من المغرب."],["I am a student.","أنا طالب."],["Nice to meet you.","متشرفين."],["What is your name?","شنو سميتك؟"],["Where are you from?","من فين نتا؟"],["I want to learn English.","بغيت نتعلم الإنجليزية."]],
+        tip: "بدّل المعلومات بالمعلومات ديالك. جرّب تقول الجمل بصوت عالي 3 مرات." },
+      { title: "الأرقام من 1 حتى 10", intro: "الأرقام ضرورية للعمر، الفلوس، والوقت.",
+        items: [["One","1"],["Two","2"],["Three","3"],["Four","4"],["Five","5"],["Six","6"],["Seven","7"],["Eight","8"],["Nine","9"],["Ten","10"]],
+        tip: "نطق 'Three' فيه حرف TH: دير لسانك بين السنان وبّلغ الهواء." },
+      { title: "الفعل to be (am / is / are)", intro: "فالإنجليزية خاص دائما فعل فالجملة. 'to be' هو الأهم.",
+        items: [["I am happy.","أنا فرحان."],["You are my friend.","نتا صاحبي."],["He is a teacher.","هو أستاذ."],["She is at home.","هي فالدار."],["We are students.","حنا طلبة."],["They are at school.","هوما فالمدرسة."],["It is a book.","هادي كتاب."],["I am not tired.","أنا ماشي عيان."],["Are you ready?","واش واجد؟"]],
+        tip: "I → am | He / She / It → is | You / We / They → are. للنفي زيد 'not' بعد الفعل." },
+      { title: "جمل مفيدة فالتعلم", intro: "هاد الجمل كتعاونك ملي ما تفهمش.",
+        items: [["I don't understand.","ما فهمتش."],["Can you repeat, please?","واش تقدر تعاود، عافاك؟"],["Speak slowly, please.","هضر بشوية، عافاك."],["What does this mean?","شنو كتعني هادي؟"],["How do you say this in English?","كيفاش كتقول هادي بالإنجليزية؟"],["I don't know.","ما عرفتش."],["I understand.","فهمت."]],
+        tip: "حفظ هاد الجمل أول، حيت غادي تستعملهم ملي تهضر مع أي واحد." }
+    ],
+    vocab: {
+      "التحيات": [["Hello","سلام"],["Goodbye","بسلامة"],["Please","عافاك"],["Thank you","شكرا"],["Sorry","سمح لي"],["Yes","واه"],["No","لا"],["Good morning","صباح الخير"],["Good night","تصبح على خير"],["Welcome","مرحبا بك"]],
+      "الأرقام": [["One","واحد"],["Two","جوج"],["Three","تلاتة"],["Four","ربعة"],["Five","خمسة"],["Six","ستة"],["Seven","سبعة"],["Eight","تمنية"],["Nine","تسعود"],["Ten","عشرة"]],
+      "العائلة": [["Mother","الأم"],["Father","الأب"],["Brother","خو"],["Sister","خت"],["Friend","صاحب"],["Family","العائلة"],["Son","الولد"],["Daughter","البنت"]],
+      "الأكل والشرب": [["Water","الما"],["Bread","الخبز"],["Tea","أتاي"],["Milk","الحليب"],["Chicken","الدجاج"],["Apple","التفاحة"],["Rice","الروز"],["Egg","البيضة"],["Coffee","القهوة"],["Fish","الحوت"]],
+      "الحياة اليومية": [["House","الدار"],["School","المدرسة"],["Phone","التليفون"],["Computer","الكمبيوتر"],["Book","الكتاب"],["Money","الفلوس"],["Time","الوقت"],["Today","اليوم"],["Tomorrow","غدا"],["Work","الخدمة"]],
+      "الأفعال": [["Eat","أكل"],["Drink","شرب"],["Go","مشى"],["Come","جا"],["Learn","تعلم"],["Speak","هضر"],["Listen","سمع"],["Read","قرا"],["Write","كتب"],["Sleep","نعس"]]
+    },
+    dialogues: [
+      { title: "نتعرفو على بعض", turns: [
+        { c: "Hello! What is your name?", ca: "سلام! شنو سميتك؟", y: "My name is {name}.", ya: "سميتي {name}." },
+        { c: "Nice to meet you. Where are you from?", ca: "متشرفين. من فين نتا؟", y: "I am from Morocco.", ya: "أنا من المغرب." },
+        { c: "How are you today?", ca: "كيف داير اليوم؟", y: "I'm fine, thank you.", ya: "أنا بخير، شكرا." },
+        { c: "Goodbye! See you tomorrow.", ca: "بسلامة! نشوفك غدا.", y: "Goodbye!", ya: "بسلامة!" }
+      ]},
+      { title: "فالمقهى", turns: [
+        { c: "Hi! What do you want?", ca: "سلام! شنو بغيتي؟", y: "Tea, please.", ya: "أتاي، عافاك." },
+        { c: "Do you want some bread?", ca: "واش بغيتي شوية د الخبز؟", y: "Yes, please.", ya: "واه، عافاك." },
+        { c: "Here you are.", ca: "تفضل.", y: "Thank you very much.", ya: "شكرا بزاف." }
+      ]}
+    ]
+  },
+
+  2: {
+    name: "أساسي", code: "A2", desc: "الروتين، المطعم، التسوق، الاتجاهات، الماضي البسيط",
+    lessons: [
+      { title: "الروتين اليومي (Present Simple)", intro: "كيفاش نهضرو على اللي كندير كل نهار.",
+        items: [["I wake up at seven.","كنفيق على السبعة."],["I have breakfast at home.","كنفطر فالدار."],["I go to school by bus.","كنمشي للمدرسة بالطوبيس."],["He works every day.","هو كيخدم كل نهار."],["She doesn't like coffee.","هي ماكتحبش القهوة."],["Do you study English every day?","واش كتقرا الإنجليزية كل نهار؟"],["Yes, I do.","واه، كنقراها."],["No, I don't.","لا، ماكنقراهاش."],["We usually eat dinner at eight.","عادة كنتعشاو على التمنية."]],
+        tip: "مع he / she / it زيد s للفعل: he works. للنفي والسؤال استعمل do / does." },
+      { title: "فالمطعم", intro: "كيفاش تطلب الماكلة وتخلص.",
+        items: [["Can I see the menu, please?","واش نقدر نشوف المينيو، عافاك؟"],["I would like chicken and rice.","بغيت الدجاج والروز."],["What do you recommend?","شنو كتنصحني؟"],["Can I have some water, please?","واش تعطيني شوية د الما، عافاك؟"],["Is it spicy?","واش هادشي حار؟"],["It was delicious.","كان بنين."],["The bill, please.","الحساب، عافاك."],["Is service included?","واش الخدمة محسوبة؟"]],
+        tip: "'I would like' أحسن وأكثر أدبا من 'I want' فالمطعم." },
+      { title: "التسوق والأثمنة", intro: "كيفاش تسقسي على الثمن وتشري.",
+        items: [["How much is this?","بشحال هادي؟"],["It is twenty dollars.","بعشرين دولار."],["It's too expensive.","غالية بزاف."],["Do you have a smaller size?","واش عندك مقاس أصغر؟"],["Can I try it on?","واش نقدر نجربها؟"],["Can you give me a discount?","واش تقدر دير لي تخفيض؟"],["I'll take it.","غادي ناخدها."],["Can I pay by card?","واش نقدر نخلص بالكارط؟"]],
+        tip: "'I'll take it' كتقولها ملي تقرر تشري." },
+      { title: "الاتجاهات (Directions)", intro: "كيفاش تسقسي على الطريق.",
+        items: [["Where is the station?","فين كاينة المحطة؟"],["Go straight.","سير نيشان."],["Turn left.","دور على اليسار."],["Turn right.","دور على اليمين."],["It's next to the bank.","كاينة حدا البنك."],["It's on the left.","كاينة فاليسار."],["How far is it?","شحال بعيدة؟"],["Is it near here?","واش قريبة من هنا؟"]],
+        tip: "left = يسار، right = يمين، straight = نيشان." },
+      { title: "الماضي البسيط (Past Simple)", intro: "كيفاش نهضرو على اللي وقع.",
+        items: [["I went to the market yesterday.","مشيت للسوق البارح."],["She watched a movie.","شافت فيلم."],["We ate dinner at eight.","تعشينا على التمنية."],["I didn't go to school.","ما مشيتش للمدرسة."],["Did you see him?","واش شفتيه؟"],["What did you do last weekend?","شنو درتي لويكاند اللي فات؟"],["I was tired.","كنت عيان."],["They were at home.","كانو فالدار."]],
+        tip: "الأفعال العادية كتزيد -ed (watched). وكاين أفعال شاذة: go → went, eat → ate, see → saw. فالنفي والسؤال: did + الفعل الأصلي." }
+    ],
+    vocab: {
+      "الروتين": [["Wake up","فاق"],["Breakfast","الفطور"],["Lunch","الغداء"],["Dinner","العشاء"],["Bus","الطوبيس"],["Street","الزنقة"],["Morning","الصباح"],["Evening","العشية"],["Weekend","نهاية الأسبوع"],["Week","السيمانة"]],
+      "التسوق": [["Price","الثمن"],["Cheap","رخيص"],["Expensive","غالي"],["Size","المقاس"],["Shop","الحانوت"],["Buy","شرى"],["Sell","باع"],["Pay","خلص"],["Cash","الكاش"],["Discount","التخفيض"]],
+      "الأماكن": [["Station","المحطة"],["Bank","البنك"],["Hospital","السبيطار"],["Market","السوق"],["Restaurant","المطعم"],["Hotel","الأوطيل"],["Airport","المطار"],["Left","اليسار"],["Right","اليمين"],["Near","قريب"]],
+      "الصحة والجسم": [["Head","الراس"],["Hand","اليد"],["Doctor","الطبيب"],["Medicine","الدوا"],["Pain","الألم"],["Healthy","صحي"],["Sick","مريض"],["Tired","عيان"],["Hungry","جيعان"],["Thirsty","عطشان"]]
+    },
+    dialogues: [
+      { title: "فالمطعم", turns: [
+        { c: "Good evening! What would you like to order?", ca: "مساء الخير! شنو بغيتي تطلب؟", y: "I would like chicken and rice, please.", ya: "بغيت الدجاج والروز، عافاك." },
+        { c: "Would you like something to drink?", ca: "واش بغيتي شي حاجة تشربها؟", y: "Yes, I would like some water.", ya: "واه، بغيت شوية د الما." },
+        { c: "Here is your meal. Enjoy!", ca: "هاد الوجبة ديالك. بالهنا والشفا!", y: "Thank you. It looks delicious.", ya: "شكرا. باين بنين." },
+        { c: "Would you like anything else?", ca: "شي حاجة أخرى؟", y: "The bill, please.", ya: "الحساب، عافاك." }
+      ]},
+      { title: "كيفاش نوصل؟", turns: [
+        { c: "Hello! Can I help you?", ca: "سلام! واش نقدر نعاونك؟", y: "Excuse me, where is the station?", ya: "عفاك، فين كاينة المحطة؟" },
+        { c: "Go straight and turn left.", ca: "سير نيشان ودور على اليسار.", y: "Is it far from here?", ya: "واش بعيدة من هنا؟" },
+        { c: "No, it is five minutes on foot.", ca: "لا، خمس دقايق ماشي.", y: "Thank you very much.", ya: "شكرا بزاف." }
+      ]},
+      { title: "فالحانوت", turns: [
+        { c: "Hi! Can I help you?", ca: "سلام! واش نقدر نعاونك؟", y: "Yes, how much is this shirt?", ya: "واه، بشحال هاد القميجة؟" },
+        { c: "It is twenty dollars.", ca: "بعشرين دولار.", y: "Do you have a smaller size?", ya: "واش عندك مقاس أصغر؟" },
+        { c: "Yes, here you are.", ca: "واه، تفضل.", y: "I'll take it. Can I pay by card?", ya: "غادي ناخدها. واش نقدر نخلص بالكارط؟" },
+        { c: "Of course.", ca: "طبعا.", y: "Thank you. Goodbye!", ya: "شكرا. بسلامة!" }
+      ]}
+    ]
+  },
+
+  3: {
+    name: "متوسط", code: "B1", desc: "Present Perfect، المستقبل، الآراء، مقابلة عمل، النصائح",
+    lessons: [
+      { title: "Present Perfect", intro: "كيفاش نهضرو على التجارب والحاجات اللي مازال مرتبطة بالحاضر.",
+        items: [["I have lived here for five years.","عندي خمس سنين وأنا ساكن هنا."],["Have you ever been to Spain?","واش مشيتي كاع لإسبانيا؟"],["I have never tried sushi.","عمري جربت السوشي."],["She has just arrived.","هي توها وصلات."],["We haven't finished yet.","باقي ما كملناش."],["How long have you studied English?","شحال هادي وانت كتقرا الإنجليزية؟"],["I have already done my homework.","درت الواجب ديالي ديجا."]],
+        tip: "have / has + past participle (done, been, seen). كنستعملوه للتجربة وللحاجة اللي بدات فالماضي وباقية مرتبطة بالحاضر." },
+      { title: "الخطط والمستقبل", intro: "كيفاش نهضرو على اللي غادي نديرو.",
+        items: [["I'm going to study abroad.","غادي نقرا فالخارج."],["I will call you tomorrow.","غادي نعيط ليك غدا."],["What are you going to do this weekend?","شنو غادي دير هاد الويكاند؟"],["It will probably rain.","غالبا غادي تشتي."],["I'm meeting my friend at six.","عندي موعد مع صاحبي على الستة."],["Maybe I'll start a small business.","يمكن نبدا مشروع صغير."],["I hope I will find a good job.","كنتمنى نلقى خدمة مزيانة."]],
+        tip: "going to للخطط اللي قررتي عليها، will للقرارات السريعة والتوقعات." },
+      { title: "الآراء والنقاش", intro: "كيفاش تعطي رأيك وتوافق أو لا.",
+        items: [["In my opinion, it is a good idea.","فرأيي، هادي فكرة مزيانة."],["I completely agree with you.","أنا موافق معاك تماما."],["I don't agree with that.","أنا ماشي موافق على هادشي."],["I think learning English is important.","كنظن تعلم الإنجليزية مهم."],["That's a good point.","هادي نقطة مزيانة."],["On the other hand, it is expensive.","من جهة أخرى، غالي."],["It depends on the situation.","كيتوقف على الوضعية."],["Could you explain that again?","واش تقدر تشرح هادشي مرة أخرى؟"]],
+        tip: "In my opinion / I think / I believe كلهم كيعطيو رأيك." },
+      { title: "مقابلة العمل", intro: "جمل مهمة فالمقابلة.",
+        items: [["I am applying for this job.","أنا كنقدم على هاد الخدمة."],["I have two years of experience.","عندي عامين د الخبرة."],["What are your strengths?","شنو هما نقط القوة ديالك؟"],["I can work well in a team.","كنقدر نخدم مزيان فالفريق."],["I am good at solving problems.","أنا مزيان فحل المشاكل."],["When can I start?","فاش نقدر نبدا؟"],["Thank you for this opportunity.","شكرا على هاد الفرصة."]],
+        tip: "كون واثق وجاوب بجمل قصيرة وواضحة." },
+      { title: "النصائح والشروط", intro: "if, should, would.",
+        items: [["If I have time, I will study.","إلا كان عندي الوقت، غادي نقرا."],["If it rains, we will stay at home.","إلا شتات، غادي نبقاو فالدار."],["You should practice every day.","خاصك تتدرب كل نهار."],["You shouldn't give up.","ما خاصكش تستسلم."],["If I were you, I would call him.","لو كنت بلاصتك، نعيط ليه."],["Why don't you try again?","علاش ما تعاودش تجرب؟"],["You had better start now.","الأحسن تبدا دابا."]],
+        tip: "If + present → will (حاجة ممكنة). If + past → would (حاجة خيالية)." }
+    ],
+    vocab: {
+      "العمل": [["Job","الخدمة"],["Salary","الراتب"],["Manager","المدير"],["Meeting","الاجتماع"],["Experience","الخبرة"],["Skill","المهارة"],["Company","الشركة"],["Customer","الزبون"],["Project","المشروع"],["Deadline","آخر أجل"]],
+      "السفر": [["Passport","الباسبور"],["Ticket","التذكرة"],["Luggage","الأمتعة"],["Flight","الرحلة الجوية"],["Reservation","الحجز"],["Abroad","فالخارج"],["Trip","السفرة"],["Tourist","السائح"],["Visa","الفيزا"],["Gate","البوابة"]],
+      "الآراء": [["Opinion","الرأي"],["Agree","وافق"],["Disagree","ما وافقش"],["Problem","المشكل"],["Solution","الحل"],["Advantage","الميزة"],["Disadvantage","العيب"],["Choice","الاختيار"],["Reason","السبب"],["Idea","الفكرة"]],
+      "المشاعر": [["Excited","متحمس"],["Nervous","متوتر"],["Proud","فخور"],["Worried","قلقان"],["Disappointed","خايب الأمل"],["Surprised","مدهوش"],["Confident","واثق"],["Curious","فضولي"],["Grateful","ممتن"],["Embarrassed","محرج"]]
+    },
+    dialogues: [
+      { title: "مقابلة عمل", turns: [
+        { c: "Good morning. Please tell me about yourself.", ca: "صباح الخير. عرفني بنفسك.", y: "I am a business student and I have one year of experience.", ya: "أنا طالب تسيير وعندي عام د الخبرة." },
+        { c: "What are your strengths?", ca: "شنو هما نقط القوة ديالك؟", y: "I can work well in a team and I am good at solving problems.", ya: "كنقدر نخدم مزيان فالفريق وأنا مزيان فحل المشاكل." },
+        { c: "Why do you want this job?", ca: "علاش بغيتي هاد الخدمة؟", y: "I want to learn and grow in your company.", ya: "بغيت نتعلم ونتطور فالشركة ديالكم." },
+        { c: "When can you start?", ca: "فاش تقدر تبدا؟", y: "I can start next Monday. Thank you for this opportunity.", ya: "نقدر نبدا الاثنين الجاي. شكرا على هاد الفرصة." }
+      ]},
+      { title: "فالمطار", turns: [
+        { c: "Good morning. May I see your passport and ticket, please?", ca: "صباح الخير. واش نقدر نشوف الباسبور والتذكرة؟", y: "Here you are. I have a reservation for Paris.", ya: "تفضل. عندي حجز لباريس." },
+        { c: "Do you have any luggage to check in?", ca: "واش عندك شي أمتعة؟", y: "Yes, I have one suitcase.", ya: "واه، عندي شنطة وحدة." },
+        { c: "Your flight leaves at six from gate twelve.", ca: "الطيارة ديالك كتسافر على الستة من البوابة 12.", y: "Thank you. Is the flight on time?", ya: "شكرا. واش الطيارة فوقتها؟" },
+        { c: "Yes, it is. Have a nice trip!", ca: "واه. سفر سعيد!", y: "Thank you very much.", ya: "شكرا بزاف." }
+      ]},
+      { title: "رأي ونصيحة", turns: [
+        { c: "I can't decide. Should I study abroad or stay here?", ca: "ما قادرش نقرر. واش نقرا فالخارج ولا نبقى هنا؟", y: "In my opinion, you should study abroad.", ya: "فرأيي، خاصك تقرا فالخارج." },
+        { c: "But it is very expensive.", ca: "ولكن غالي بزاف.", y: "I agree, but you can look for a scholarship.", ya: "موافق، ولكن تقدر تقلب على منحة." },
+        { c: "That's a good point. What would you do?", ca: "هادي نقطة مزيانة. شنو غادي دير نتا؟", y: "If I were you, I would try.", ya: "لو كنت بلاصتك، نجرب." },
+        { c: "Thanks for your advice.", ca: "شكرا على النصيحة.", y: "You're welcome. Good luck!", ya: "عفوا. بالتوفيق!" }
+      ]}
+    ]
+  },
+
+  4: {
+    name: "متقدم", code: "B2", desc: "الروابط، phrasal verbs، الرسائل الرسمية، النقاش",
+    lessons: [
+      { title: "التعبير عن الرأي بشكل منظم", intro: "روابط كتخلي كلامك مقنع ومنظم.",
+        items: [["Personally, I believe that technology helps us learn.","شخصيا، كنعتقد أن التكنولوجيا كتعاوننا نتعلمو."],["It seems to me that this plan is risky.","كيبان ليا أن هاد الخطة فيها مخاطرة."],["To be honest, I'm not convinced.","بصراحة، ماشي مقتنع."],["Having said that, you have a point.","ومع ذلك، عندك الحق فشي حاجة."],["As a result, sales increased.","ونتيجة لذلك، زادو المبيعات."],["In addition, it saves time.","وبالإضافة لهادشي، كيوفر الوقت."],["On the whole, it was a success.","عموما، كان نجاح."],["In conclusion, we should act now.","فالخلاصة، خاصنا نتحركو دابا."]],
+        tip: "هاد الروابط (connectors) كتخلي كلامك منظم ومقنع، سواء فالهضرة ولا فالكتابة." },
+      { title: "Phrasal verbs", intro: "فعل + حرف، والمعنى كيتبدل.",
+        items: [["Don't give up on your dreams.","ما تتخلاش على أحلامك."],["I'm looking for a new apartment.","كنقلب على شقة جديدة."],["Let's find out the truth.","خلينا نكتشفو الحقيقة."],["I can't figure out this problem.","ما قادرش نفهم هاد المشكل."],["He turned down the offer.","رفض العرض."],["We ran out of time.","سالا لينا الوقت."],["She came up with a great idea.","جابت فكرة رائعة."],["I get along with my colleagues.","كنتفاهم مع زملائي."]],
+        tip: "تعلم الـ phrasal verbs داخل جمل، ماشي بوحدهم." },
+      { title: "الرسائل والكلام الرسمي", intro: "كيفاش تكتب وتهضر بشكل رسمي ومهني.",
+        items: [["I am writing to inquire about the position.","كنكتب ليكم باش نستفسر على المنصب."],["Please find the document attached.","المرفق فيه الوثيقة."],["I would appreciate your help.","غادي نقدر مساعدتكم."],["Could you please confirm the date?","واش ممكن تأكدو لي التاريخ؟"],["I apologize for the inconvenience.","كنعتذر على الإزعاج."],["I look forward to hearing from you.","كنتسناو جوابكم بفارغ الصبر."],["Best regards.","مع أحسن التحيات."]],
+        tip: "فالرسائل الرسمية استعمل Could / Would وتجنب الاختصارات." }
+    ],
+    vocab: {
+      "Phrasal verbs": [["Give up","استسلم"],["Look for","قلب على"],["Find out","اكتشف"],["Figure out","فهم"],["Turn down","رفض"],["Run out of","سالا ليه"],["Come up with","جاب فكرة"],["Get along with","تفاهم مع"],["Carry on","كمل"],["Put off","أجل"]],
+      "الأعمال": [["Budget","الميزانية"],["Profit","الربح"],["Strategy","الاستراتيجية"],["Negotiate","فاوض"],["Contract","العقد"],["Invest","استثمر"],["Competitor","المنافس"],["Revenue","المداخيل"],["Supplier","المورد"],["Employee","الموظف"]],
+      "الروابط": [["However","لكن / ومع ذلك"],["Therefore","لذلك"],["Moreover","علاوة على ذلك"],["Although","رغم أن"],["Besides","زيادة على"],["Instead","بدلا من"],["Meanwhile","فهاد الأثناء"],["Otherwise","وإلا"],["Nevertheless","رغم هادشي كامل"],["Furthermore","زيادة على هادشي"]]
+    },
+    dialogues: [
+      { title: "نقاش فالخدمة", turns: [
+        { c: "We have a problem. The project is late.", ca: "عندنا مشكل. المشروع تأخر.", y: "I understand. What is the main reason?", ya: "فهمت. شنو هو السبب الرئيسي؟" },
+        { c: "We ran out of budget.", ca: "سالات لينا الميزانية.", y: "In my opinion, we should negotiate with the supplier.", ya: "فرأيي، خاصنا نفاوضو مع المورد." },
+        { c: "That's a good point, but it might take time.", ca: "نقطة مزيانة، ولكن يمكن تاخد الوقت.", y: "Having said that, it is better than giving up.", ya: "ومع ذلك، هادشي أحسن من الاستسلام." },
+        { c: "I agree. Let's find out the options.", ca: "موافق. خلينا نكتشفو الخيارات.", y: "Great. I will send you an email today.", ya: "مزيان. غادي نصيفط ليك إيميل اليوم." }
+      ]},
+      { title: "التخطيط للمستقبل", turns: [
+        { c: "What are your plans for the next five years?", ca: "شنو هي الخطط ديالك للخمس سنين الجاية؟", y: "I'm going to finish my studies and start my own business.", ya: "غادي نكمل القراية ونبدا مشروعي الخاص." },
+        { c: "That sounds ambitious. What will be your biggest challenge?", ca: "هادشي طموح. شنو غادي يكون أكبر تحدي؟", y: "The biggest challenge will be finding enough money.", ya: "أكبر تحدي غادي يكون نلقى الفلوس الكافية." },
+        { c: "How are you going to deal with it?", ca: "كيفاش غادي تتعامل معاه؟", y: "I will save money and look for investors.", ya: "غادي نوفر الفلوس ونقلب على مستثمرين." },
+        { c: "I'm sure you will succeed.", ca: "متأكد غادي تنجح.", y: "Thank you. I hope so.", ya: "شكرا. كنتمنى." }
+      ]}
+    ]
+  }
+};
+
+/* ================= STORAGE ================= */
+const KEY = "englishCoach_v3";
+let memory = { level: 1, name: "Anas", voiceURI: "", rate: 0.9, lessonsDone: [], known: {}, quizzes: [], speaking: [], entries: [], activeDays: [] };
+function warn() { document.getElementById("warning").style.display = "block"; }
+function load() {
+  let found = false;
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (d && typeof d === "object") { memory = Object.assign(memory, d); found = true; }
+  } catch (e) { warn(); }
+  if (!found) {
+    try {
+      const o = JSON.parse(localStorage.getItem("learnEnglish_v2") || "null");
+      if (o && typeof o === "object") {
+        if (Array.isArray(o.entries)) memory.entries = o.entries;
+        if (o.known && typeof o.known === "object") memory.known = o.known;
+        if (Array.isArray(o.quizzes)) memory.quizzes = o.quizzes.map(q => Object.assign({ level: 1 }, q));
+        if (Array.isArray(o.lessonsDone)) memory.lessonsDone = o.lessonsDone.map(id => "1-" + (parseInt(String(id).slice(1), 10) - 1)).filter(id => /^1-\d+$/.test(id));
+      }
+    } catch (e) {}
+    try {
+      const old = JSON.parse(localStorage.getItem("englishLearningTracker_v1") || "[]");
+      if (Array.isArray(old) && old.length && !memory.entries.length) memory.entries = old;
+    } catch (e) {}
+  }
+  if (!LEVELS[memory.level]) memory.level = 1;
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(memory)); } catch (e) { warn(); } }
+load();
+
+/* ================= HELPERS ================= */
+function esc(t) { const d = document.createElement("div"); d.textContent = String(t); return d.innerHTML; }
+function fill(s) { return String(s).replace(/\{name\}/g, memory.name || "Anas"); }
+function todayString() { const n = new Date(); return new Date(n.getTime() - n.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
+function dayNum(s) { const [y, m, d] = s.split("-").map(Number); return Math.round(Date.UTC(y, m - 1, d) / 86400000); }
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function L() { return LEVELS[memory.level]; }
+function poolVocab() { return Object.values(L().vocab).flat(); }
+function markActive() {
+  const t = todayString();
+  const wasNew = !allDays().has(t);
+  if (!memory.activeDays.includes(t)) { memory.activeDays.push(t); if (memory.activeDays.length > 400) memory.activeDays.shift(); }
+  if (wasNew) setTimeout(() => { toast("📅 تسجل نهار اليوم فأيام التعلم! 🔥"); confetti(40); }, 350);
+}
+function allDays() { const s = new Set(memory.entries.map(e => e.date)); memory.activeDays.forEach(d => s.add(d)); return s; }
+function streak() {
+  const days = new Set([...allDays()].map(dayNum));
+  let d = dayNum(todayString()); if (!days.has(d)) d--;
+  let n = 0; while (days.has(d)) { n++; d--; } return n;
+}
+function speakAvg() {
+  const s = memory.speaking.slice(-30);
+  return s.length ? Math.round(s.reduce((a, x) => a + x.pct, 0) / s.length) : null;
+}
+
+/* ================= VOICE OUT (TTS) ================= */
+let voices = [];
+function loadVoices() {
+  try { voices = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang)); } catch (e) { voices = []; }
+  const sel = document.getElementById("voiceSel");
+  sel.innerHTML = voices.length
+    ? voices.map(v => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === memory.voiceURI ? "selected" : ""}>${esc(v.name)} (${esc(v.lang)})</option>`).join("")
+    : `<option value="">ما لقيت حتى صوت إنجليزي فهاد الجهاز</option>`;
+}
+if ("speechSynthesis" in window) { speechSynthesis.onvoiceschanged = loadVoices; }
+function speak(text, slow) {
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    const v = voices.find(x => x.voiceURI === memory.voiceURI) || voices.find(x => /en-US/i.test(x.lang)) || voices[0];
+    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = "en-US";
+    u.rate = slow ? Math.min(0.6, memory.rate) : memory.rate;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-say]");
+  if (b) { e.stopPropagation(); speak(fill(b.dataset.say), !!b.dataset.slow); }
+});
+
+/* ================= VOICE IN (speech recognition) ================= */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let activeRec = null;
+function recognize() {
+  return new Promise((resolve, reject) => {
+    if (!SR) return reject("unsupported");
+    if (activeRec) { try { activeRec.abort(); } catch (e) {} }
+    const rec = new SR(); activeRec = rec;
+    rec.lang = "en-US"; rec.interimResults = false; rec.maxAlternatives = 3; rec.continuous = false;
+    let got = false;
+    rec.onresult = ev => { got = true; const r = ev.results[0]; const alts = []; for (let i = 0; i < r.length; i++) alts.push(r[i].transcript); resolve(alts); };
+    rec.onerror = ev => { if (!got) reject(ev.error || "error"); };
+    rec.onend = () => { activeRec = null; if (!got) reject("no-speech"); };
+    try { rec.start(); } catch (e) { reject("start-failed"); }
+  });
+}
+function errorMsg(code) {
+  switch (code) {
+    case "unsupported": return "هاد المتصفح ما كيدعمش التعرف على الصوت. استعمل Chrome أو Edge.";
+    case "not-allowed": case "service-not-allowed": return "خاصك تسمح للمتصفح يستعمل الميكرو (الأيقونة 🔒 حدا العنوان). ويلا كنتي فاتح الفيشي من الدسك، جرّب Edge.";
+    case "no-speech": return "ما سمعتش والو. قرّب من الميكرو وعاود.";
+    case "network": return "التعرف على الصوت كيحتاج انترنت. تأكد بلي متصل.";
+    case "audio-capture": return "ما لقيتش ميكرو فهاد الجهاز.";
+    case "aborted": return "تقطع التسجيل. عاود.";
+    default: return "وقع مشكل (" + code + "). عاود المحاولة.";
+  }
+}
+async function runMic(btn, resultEl, handler) {
+  if (!SR) { resultEl.innerHTML = `<p class="err">${errorMsg("unsupported")}</p>`; return; }
+  const old = btn.textContent;
+  btn.classList.add("rec"); btn.textContent = "🎙️ كنسمعك... هضر دابا";
+  try { speechSynthesis.cancel(); } catch (e) {}
+  try { const alts = await recognize(); handler(alts); }
+  catch (e) { resultEl.innerHTML = `<p class="err">${errorMsg(e)}</p>`; }
+  finally { btn.classList.remove("rec"); btn.textContent = old; }
+}
+
+/* SCORING START */
+const CONTR = {"i'm":"i am","you're":"you are","he's":"he is","she's":"she is","it's":"it is","we're":"we are","they're":"they are","don't":"do not","doesn't":"does not","didn't":"did not","can't":"can not","cannot":"can not","isn't":"is not","aren't":"are not","haven't":"have not","hasn't":"has not","won't":"will not","wasn't":"was not","weren't":"were not","shouldn't":"should not","couldn't":"could not","wouldn't":"would not","i'd":"i would","i'll":"i will","i've":"i have","you've":"you have","you'll":"you will","we've":"we have","they've":"they have","what's":"what is","that's":"that is","there's":"there is","let's":"let us","who's":"who is","where's":"where is","how's":"how is","you'd":"you would","we'd":"we would","he'd":"he would","she'd":"she would"};
+const NUMW = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"];
+function toks(s) {
+  const out = [];
+  String(s).toLowerCase().replace(/[’‘`]/g, "'").replace(/-/g, " ").split(/\s+/).forEach(w => {
+    w = w.replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, "");
+    if (!w) return;
+    if (CONTR[w]) { out.push(...CONTR[w].split(" ")); return; }
+    w = w.replace(/'/g, "");
+    if (/^\d+$/.test(w) && Number(w) <= 20) w = NUMW[Number(w)];
+    if (w) out.push(w);
+  });
+  return out;
+}
+function score(target, alts) {
+  const words = String(target).split(/\s+/).filter(Boolean);
+  let best = null;
+  alts.forEach(h => {
+    const counts = {};
+    toks(h).forEach(t => { counts[t] = (counts[t] || 0) + 1; });
+    let ok = 0, total = 0; const marks = [];
+    words.forEach(w => {
+      const tk = toks(w);
+      if (!tk.length) { marks.push({ w, ok: true }); return; }
+      let good = true;
+      tk.forEach(t => { total++; if (counts[t] > 0) { counts[t]--; ok++; } else good = false; });
+      marks.push({ w, ok: good });
+    });
+    const pct = total ? ok / total : 0;
+    if (!best || pct > best.pct) best = { pct, marks, heard: h };
+  });
+  return best || { pct: 0, marks: words.map(w => ({ w, ok: false })), heard: "" };
+}
+/* SCORING END */
+
+function marksHTML(marks) { return marks.map(m => `<span class="${m.ok ? "wok" : "wbad"}">${esc(m.w)}</span>`).join(" "); }
+function resultHTML(r) {
+  const p = Math.round(r.pct * 100);
+  const msg = p >= 85 ? "ممتاز! 🌟" : p >= 60 ? "مزيان، قريب 👍" : "عاود وسمع النطق مزيان 🔁";
+  return `<div class="res ltr">${marksHTML(r.marks)}</div><p><strong>${p}%</strong> — ${msg}</p><p class="small ltr">سمعتك: ${esc(r.heard)}</p><p class="small">الكلمات الحمرا هما اللي ما تسمعاتش مزيان.</p>`;
+}
+function logSpeaking(r) {
+  memory.speaking.push({ date: todayString(), level: memory.level, pct: Math.round(r.pct * 100) });
+  if (memory.speaking.length > 300) memory.speaking.shift();
+  markActive(); save();
+}
+
+
+/* ================= NUMBERS ================= */
+const N_ONES = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const N_TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+const N_SCALE = [[1e12,"trillion"],[1e9,"billion"],[1e6,"million"],[1e3,"thousand"]];
+function numWords(n) {
+  if (n < 20) return N_ONES[n];
+  if (n < 100) return N_TENS[Math.floor(n / 10)] + (n % 10 ? "-" + N_ONES[n % 10] : "");
+  if (n < 1000) return N_ONES[Math.floor(n / 100)] + " hundred" + (n % 100 ? " " + numWords(n % 100) : "");
+  for (const [v, name] of N_SCALE) {
+    if (n >= v) { const r = n % v; return numWords(Math.floor(n / v)) + " " + name + (r ? " " + numWords(r) : ""); }
+  }
+}
+function normDigits(t) {
+  return t.replace(/[\u0660-\u0669]/g, d => d.charCodeAt(0) - 0x660).replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x6F0).replace(/[\s,._]/g, "");
+}
+let numRange = [0, 100], numHit = null;
+function renderNumGrid(filterWord) {
+  const [a, b] = numRange; let html = "", c = 0;
+  for (let i = a; i <= b; i++) {
+    const w = numWords(i);
+    if (filterWord && !w.includes(filterWord)) continue;
+    c++;
+    html += `<div class="numcell${i === numHit ? " hit" : ""}" id="n${i}" data-say="${w}"><b>${i}</b><span>${w}</span><span style="flex:0">🔊</span></div>`;
+  }
+  document.getElementById("numGrid").innerHTML = html || '<p class="small">ما لقيت والو.</p>';
+  document.getElementById("numInfo").textContent = filterWord ? `النتائج: ${c}` : `من ${a} حتى ${b}. كليكي على أي رقم باش تسمعو.`;
+}
+function numSearch() {
+  const raw = document.getElementById("numQ").value.trim();
+  const res = document.getElementById("numRes");
+  numHit = null;
+  if (!raw) { res.innerHTML = ""; renderNumGrid(); return; }
+  const d = normDigits(raw);
+  if (/^\d+$/.test(d)) {
+    const n = Number(d);
+    if (n > 999999999999) { res.innerHTML = '<div class="numres">الرقم كبير بزاف. جرب رقم حتى 999,999,999,999.</div>'; return; }
+    const w = numWords(n);
+    res.innerHTML = `<div class="numres"><div class="big">${n.toLocaleString("en-US")}</div><div class="words">${w}</div>
+      <button class="btn" data-say="${w}">🔊 سمع</button> <button class="btn gray" data-say="${w}" data-slow="1">🐢 بشوية</button></div>`;
+    if (n >= 0 && n <= 1000) {
+      numHit = n;
+      numRange = n <= 100 ? [0, 100] : n <= 500 ? [101, 500] : [501, 1000];
+      document.querySelectorAll("#numChips button").forEach(x => x.classList.toggle("on", x.dataset.r === numRange.join("-")));
+      renderNumGrid();
+      const el = document.getElementById("n" + n); if (el) el.scrollIntoView({ block: "center", behavior: "smooth" });
+    } else renderNumGrid();
+    return;
+  }
+  res.innerHTML = "";
+  numRange = [0, 1000];
+  document.querySelectorAll("#numChips button").forEach(x => x.classList.toggle("on", x.dataset.r === "0-1000"));
+  renderNumGrid(raw.toLowerCase());
+}
+document.getElementById("numQ").addEventListener("input", numSearch);
+document.getElementById("numChips").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  numRange = b.dataset.r.split("-").map(Number); numHit = null;
+  document.getElementById("numQ").value = ""; document.getElementById("numRes").innerHTML = "";
+  document.querySelectorAll("#numChips button").forEach(x => x.classList.toggle("on", x === b));
+  renderNumGrid();
+});
+
+/* ================= TABS ================= */
+document.querySelectorAll("nav button").forEach(btn => btn.addEventListener("click", () => showTab(btn.dataset.tab)));
+function showTab(id) {
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.id === id));
+  if (id === "home") renderHome();
+  if (id === "lessons") renderLessonList();
+  if (id === "cards") { fillDecks(); renderCard(); }
+  if (id === "speak") renderSpeak();
+  if (id === "numbers") renderNumGrid();
+  if (id === "quiz") renderQuizStart();
+  if (id === "progress") renderProgress();
+  window.scrollTo(0, 0);
+}
+
+/* ================= HOME ================= */
+function lessonId(i) { return memory.level + "-" + i; }
+function renderHome() {
+  document.getElementById("nameInput").value = memory.name || "";
+  document.getElementById("levelBox").innerHTML = Object.keys(LEVELS).map(k => {
+    const lv = LEVELS[k];
+    const done = lv.lessons.filter((_, i) => memory.lessonsDone.includes(k + "-" + i)).length;
+    return `<button class="lvl ${String(memory.level) === k ? "sel" : ""}" data-lvl="${k}"><strong>${lv.name} (${lv.code})</strong><span class="small">${lv.desc}</span><span class="small">${done}/${lv.lessons.length} دروس مكملة</span></button>`;
+  }).join("");
+  const lv = L();
+  const doneN = lv.lessons.filter((_, i) => memory.lessonsDone.includes(lessonId(i))).length;
+  const pool = poolVocab();
+  const knownN = pool.filter(([en]) => memory.known[en]).length;
+  const avg = speakAvg();
+  document.getElementById("homeStats").innerHTML = `
+    <div class="stat"><strong>${doneN}/${lv.lessons.length}</strong><br>دروس (${lv.code})</div>
+    <div class="stat"><strong>${knownN}/${pool.length}</strong><br>كلمات حفظتي</div>
+    <div class="stat"><strong>${avg === null ? "—" : avg + "%"}</strong><br>🎤 متوسط النطق</div>
+    <div class="stat"><strong><span class="flame">🔥</span> ${streak()}</strong><br>أيام متتالية</div>
+    <div class="stat"><strong>📆 ${allDays().size}</strong><br>نهار تعلمتي فيه</div>`;
+  renderStrip();
+  document.getElementById("rateRange").value = memory.rate;
+  loadVoices();
+}
+document.getElementById("nameInput").addEventListener("input", e => { memory.name = e.target.value.trim() || "Anas"; save(); });
+document.getElementById("levelBox").addEventListener("click", e => {
+  const b = e.target.closest("[data-lvl]"); if (!b) return;
+  memory.level = Number(b.dataset.lvl); dlg = null; save(); renderHome();
+});
+document.getElementById("startNext").addEventListener("click", () => {
+  const idx = L().lessons.findIndex((_, i) => !memory.lessonsDone.includes(lessonId(i)));
+  if (idx === -1) { showTab("speak"); return; }
+  showTab("lessons"); openLesson(idx);
+});
+document.getElementById("voiceSel").addEventListener("change", e => { memory.voiceURI = e.target.value; save(); });
+document.getElementById("rateRange").addEventListener("input", e => { memory.rate = Number(e.target.value); save(); });
+document.getElementById("testVoice").addEventListener("click", () => speak("Hello! Welcome to your English course."));
+
+/* ================= LESSONS ================= */
+function renderLessonList() {
+  document.getElementById("lessonView").style.display = "none";
+  const list = document.getElementById("lessonList"); list.style.display = "grid";
+  list.innerHTML = `<div class="card" style="margin:0"><strong>${L().name} (${L().code})</strong> — ${L().desc}</div>` +
+    L().lessons.map((l, i) => `<button class="lessonbtn" data-i="${i}">${i + 1}. ${l.title}${memory.lessonsDone.includes(lessonId(i)) ? '<span class="done">✅</span>' : ""}</button>`).join("");
+}
+document.getElementById("lessonList").addEventListener("click", e => {
+  const b = e.target.closest(".lessonbtn"); if (b) openLesson(Number(b.dataset.i));
+});
+function openLesson(i) {
+  const l = L().lessons[i];
+  document.getElementById("lessonList").style.display = "none";
+  const v = document.getElementById("lessonView"); v.style.display = "block";
+  v.innerHTML = `<div class="card">
+    <button class="btn gray" id="backLessons">← رجوع للدروس</button>
+    <h2 style="margin-top:14px">${i + 1}. ${l.title}</h2>
+    <p>${l.intro}</p>
+    ${l.items.map(([en, ar]) => `<div class="item"><div><div class="en">${esc(fill(en))}</div><div class="ar">${esc(fill(ar))}</div></div><div class="btns"><button class="speak" data-say="${esc(en)}" aria-label="سمع">🔊</button><button class="speak" data-say="${esc(en)}" data-slow="1" aria-label="بشوية">🐢</button></div></div>`).join("")}
+    <div class="tip">💡 ${l.tip}</div>
+    <button class="btn" id="practiceLesson" style="width:100%;margin-top:14px">🎤 تدرب على نطق هاد الدرس</button>
+    <button class="btn green" id="doneLesson" style="width:100%;margin-top:10px">${memory.lessonsDone.includes(lessonId(i)) ? "✅ الدرس مكمل" : "كملت هاد الدرس ✅"}</button>
+  </div>`;
+  document.getElementById("backLessons").onclick = renderLessonList;
+  document.getElementById("practiceLesson").onclick = () => { showTab("speak"); setMode("repeat"); document.getElementById("repLesson").value = String(i); loadRepeat(); };
+  document.getElementById("doneLesson").onclick = () => {
+    if (!memory.lessonsDone.includes(lessonId(i))) memory.lessonsDone.push(lessonId(i));
+    markActive(); save();
+    confetti(50); toast("🎉 برافو! سالا الدرس");
+    renderLessonList();
+  };
+}
+
+/* ================= FLASHCARDS ================= */
+const deckSel = document.getElementById("deckSel");
+let cardIdx = 0, flipped = false, deckWords = [];
+function fillDecks() {
+  const keys = Object.keys(L().vocab);
+  const cur = deckSel.value;
+  deckSel.innerHTML = keys.map(k => `<option>${esc(k)}</option>`).join("");
+  if (keys.includes(cur)) deckSel.value = cur;
+}
+function cardHTML() {
+  const [en, ar] = deckWords[cardIdx % deckWords.length];
+  return flipped
+    ? `<div class="meaning">${esc(ar)}</div><div class="small ltr" style="margin-top:8px">${esc(en)}</div>`
+    : `<div class="word">${esc(en)}</div><div class="small" style="margin-top:8px">كليكي باش تشوف المعنى</div>`;
+}
+function renderCard() {
+  const deck = L().vocab[deckSel.value] || [];
+  deckWords = deck.filter(([en]) => !memory.known[en]);
+  cardIdx = 0; flipped = false;
+  const knownN = deck.length - deckWords.length;
+  document.getElementById("deckBar").style.width = (deck.length ? knownN / deck.length * 100 : 0) + "%";
+  document.getElementById("deckInfo").textContent = `حفظتي ${knownN} من ${deck.length} كلمة فهاد المجموعة`;
+  const f = document.getElementById("flash");
+  f.innerHTML = deckWords.length ? cardHTML() : `<div class="word">🎉</div><p>حفظتي هاد المجموعة كاملة! جرّب مجموعة أخرى أو اختبار.</p>`;
+  f.classList.remove("swap"); void f.offsetWidth; f.classList.add("swap");
+}
+function currentWord() { return deckWords.length ? deckWords[cardIdx % deckWords.length] : null; }
+function paintCard() {
+  const f = document.getElementById("flash");
+  f.innerHTML = cardHTML();
+  f.classList.remove("swap"); void f.offsetWidth; f.classList.add("swap");
+}
+function flipNow() { if (!deckWords.length) return; flipped = !flipped; paintCard(); }
+deckSel.addEventListener("change", renderCard);
+document.getElementById("flash").addEventListener("click", flipNow);
+document.getElementById("flipCard").addEventListener("click", flipNow);
+document.getElementById("speakCard").addEventListener("click", () => { const w = currentWord(); if (w) speak(w[0]); });
+document.getElementById("knowBtn").addEventListener("click", () => { const w = currentWord(); if (!w) return; memory.known[w[0]] = true; markActive(); save(); renderCard();
+  if (!deckWords.length) { confetti(60); toast("🎉 حفظتي المجموعة كاملة!"); } });
+document.getElementById("againBtn").addEventListener("click", () => { if (!deckWords.length) return; cardIdx++; flipped = false; paintCard(); });
+document.getElementById("resetDeck").addEventListener("click", () => {
+  if (!confirm("واش بغيتي تعاود هاد المجموعة من الأول؟")) return;
+  (L().vocab[deckSel.value] || []).forEach(([en]) => delete memory.known[en]); save(); renderCard();
+});
+
+/* ================= SPEAK ================= */
+function setMode(m) {
+  document.getElementById("repeatBox").style.display = m === "repeat" ? "block" : "none";
+  document.getElementById("dialogBox").style.display = m === "dialog" ? "block" : "none";
+  document.getElementById("modeRepeat").className = "btn" + (m === "repeat" ? "" : " gray");
+  document.getElementById("modeDialog").className = "btn" + (m === "dialog" ? "" : " gray");
+}
+document.getElementById("modeRepeat").addEventListener("click", () => setMode("repeat"));
+document.getElementById("modeDialog").addEventListener("click", () => setMode("dialog"));
+
+function renderSpeak() {
+  document.getElementById("srNotice").innerHTML = SR
+    ? `<div class="tip">🎤 التعرف على الصوت كيخدم فـ Chrome و Edge، ولكن <strong>كيحتاج انترنت</strong> (السيرفر ديال المتصفح هو اللي كيفهم هضرتك). سمع النطق 🔊 كيخدم بلا انترنت.</div>`
+    : `<div class="tip" style="border-color:#d94343;background:#fdeaea">⚠️ هاد المتصفح ما كيدعمش التعرف على الصوت. استعمل Chrome أو Edge. تقدر تكتب الجواب وتسمع النطق.</div>`;
+  const lessonOpts = L().lessons.map((l, i) => `<option value="${i}">${i + 1}. ${esc(l.title)}</option>`).join("");
+  const rl = document.getElementById("repLesson"); const keep = rl.value;
+  rl.innerHTML = lessonOpts; if (keep && Number(keep) < L().lessons.length) rl.value = keep;
+  document.getElementById("dlgSel").innerHTML = L().dialogues.map((d, i) => `<option value="${i}">${esc(d.title)}</option>`).join("");
+  loadRepeat();
+}
+
+/* --- repeat mode --- */
+let rep = { items: [], i: 0 };
+function loadRepeat() {
+  const li = Number(document.getElementById("repLesson").value) || 0;
+  rep.items = L().lessons[li].items; rep.i = 0; renderRepeat();
+}
+function renderRepeat() {
+  const it = rep.items[rep.i];
+  document.getElementById("repCount").textContent = `${rep.i + 1} / ${rep.items.length}`;
+  document.getElementById("repPhrase").textContent = fill(it[0]);
+  document.getElementById("repAr").textContent = fill(it[1]);
+  document.getElementById("repResult").innerHTML = "";
+}
+document.getElementById("repLesson").addEventListener("change", loadRepeat);
+document.getElementById("repListen").addEventListener("click", () => speak(fill(rep.items[rep.i][0])));
+document.getElementById("repSlow").addEventListener("click", () => speak(fill(rep.items[rep.i][0]), true));
+document.getElementById("repNext").addEventListener("click", () => { rep.i = (rep.i + 1) % rep.items.length; renderRepeat(); });
+document.getElementById("repPrev").addEventListener("click", () => { rep.i = (rep.i - 1 + rep.items.length) % rep.items.length; renderRepeat(); });
+document.getElementById("repMic").addEventListener("click", e => {
+  const el = document.getElementById("repResult");
+  runMic(e.currentTarget, el, alts => {
+    const r = score(fill(rep.items[rep.i][0]), alts);
+    el.innerHTML = resultHTML(r); logSpeaking(r);
+  });
+});
+
+/* --- dialogue mode --- */
+let dlg = null;
+const showHint = document.getElementById("showHint"), showTr = document.getElementById("showTr");
+function addBubble(cls, html) {
+  const c = document.getElementById("chat");
+  const div = document.createElement("div"); div.className = "bubble " + cls; div.innerHTML = html;
+  c.appendChild(div);
+  try { div.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e) {}
+}
+document.getElementById("dlgStart").addEventListener("click", () => {
+  const d = L().dialogues[Number(document.getElementById("dlgSel").value) || 0];
+  dlg = { d, i: 0, scores: [], tries: 0 };
+  document.getElementById("chat").innerHTML = "";
+  showTurn();
+});
+function showTurn() {
+  const t = dlg.d.turns[dlg.i];
+  const coach = fill(t.c);
+  addBubble("coach", `<div class="ltr">🧑‍🏫 ${esc(coach)}</div>${showTr.checked ? `<div class="small">${esc(fill(t.ca))}</div>` : ""}`);
+  speak(coach);
+  dlg.tries = 0;
+  renderTurnBox(showHint.checked);
+}
+function renderTurnBox(reveal) {
+  const t = dlg.d.turns[dlg.i]; const ans = fill(t.y);
+  document.getElementById("turnBox").innerHTML = `
+    <div class="card inner">
+      <div class="small">دورك: جاوب بالإنجليزية</div>
+      <div id="answerBox">${reveal ? `<div class="phrase sm">${esc(ans)}</div>${showTr.checked ? `<div class="small center">${esc(fill(t.ya))}</div>` : ""}` : `<button class="btn gray" id="dlgReveal" style="margin-top:8px">👁️ شوف الجواب المقترح</button>`}</div>
+      <div class="row">
+        <button class="btn gray" id="dlgListen">🔊 سمع الجواب</button>
+        <button class="btn mic" id="dlgMic">🎤 تكلم</button>
+      </div>
+      <div class="row"><input id="dlgType" placeholder="ولا كتب الجواب هنا" dir="ltr"><button class="btn gray" id="dlgSend">إرسال</button></div>
+      <div id="dlgResult"></div>
+      <button class="btn gray" id="dlgSkip" style="width:100%;margin-top:10px">تخطى ⏭️</button>
+    </div>`;
+  const resEl = document.getElementById("dlgResult");
+  const rv = document.getElementById("dlgReveal");
+  if (rv) rv.onclick = () => { document.getElementById("answerBox").innerHTML = `<div class="phrase sm">${esc(ans)}</div>${showTr.checked ? `<div class="small center">${esc(fill(t.ya))}</div>` : ""}`; };
+  document.getElementById("dlgListen").onclick = () => speak(ans);
+  document.getElementById("dlgMic").onclick = e => runMic(e.currentTarget, resEl, alts => onAnswer(alts));
+  document.getElementById("dlgSend").onclick = () => { const v = document.getElementById("dlgType").value.trim(); if (v) onAnswer([v]); };
+  document.getElementById("dlgSkip").onclick = () => nextTurn(null);
+}
+function onAnswer(alts) {
+  const t = dlg.d.turns[dlg.i]; const ans = fill(t.y);
+  const r = score(ans, alts);
+  document.getElementById("dlgResult").innerHTML = resultHTML(r);
+  if (r.pct >= 0.6) {
+    logSpeaking(r);
+    addBubble("me", `<div class="ltr">🙋 ${marksHTML(r.marks)}</div>`);
+    const last = dlg.i === dlg.d.turns.length - 1;
+    document.getElementById("turnBox").innerHTML = `<div class="card inner"><div class="res">${resultHTML(r)}</div><button class="btn green" id="dlgNext" style="width:100%">${last ? "🏁 سالا الحوار" : "نكملو ➡️"}</button></div>`;
+    document.getElementById("dlgNext").onclick = () => nextTurn(r.pct);
+  } else {
+    dlg.tries++;
+    if (dlg.tries >= 2) renderTurnBox(true), document.getElementById("dlgResult").innerHTML = resultHTML(r);
+  }
+}
+function nextTurn(pct) {
+  if (pct !== null) dlg.scores.push(pct);
+  if (dlg.i >= dlg.d.turns.length - 1) {
+    const avg = dlg.scores.length ? Math.round(dlg.scores.reduce((a, b) => a + b, 0) / dlg.scores.length * 100) : 0;
+    addBubble("coach", `🎉 سالا الحوار! المتوسط ديالك: <strong>${avg}%</strong>`);
+    confetti(avg >= 80 ? 60 : 25);
+    document.getElementById("turnBox").innerHTML = `<div class="card inner center"><p>${avg >= 80 ? "ممتاز، دوز لحوار آخر 🌟" : "مزيان! عاود الحوار باش تحسن النطق 💪"}</p><button class="btn" id="dlgAgain" style="width:100%">🔁 عاود الحوار</button></div>`;
+    document.getElementById("dlgAgain").onclick = () => document.getElementById("dlgStart").click();
+    return;
+  }
+  dlg.i++; showTurn();
+}
+
+/* ================= QUIZ ================= */
+let quiz = null;
+function renderQuizStart() {
+  const mine = memory.quizzes.filter(q => (q.level || 1) === memory.level);
+  const last = mine[mine.length - 1];
+  document.getElementById("quizBox").innerHTML = `
+    <h2>اختبار الكلمات (${L().code})</h2>
+    <p>10 أسئلة من كلمات مستواك: ترجمة، وسمع واختار.</p>
+    ${last ? `<p class="small">آخر نتيجة فهاد المستوى: ${last.score}/${last.total}</p>` : ""}
+    <button class="btn" id="startQuiz" style="width:100%">بدا الاختبار</button>`;
+  document.getElementById("startQuiz").onclick = startQuiz;
+}
+function startQuiz() {
+  const pool = poolVocab();
+  const canListen = "speechSynthesis" in window;
+  const qs = shuffle(pool).slice(0, 10).map(([en, ar]) => {
+    const r = Math.random();
+    const type = r < .34 ? "toAr" : (r < .67 || !canListen) ? "toEn" : "listen";
+    const wrong = shuffle(pool.filter(w => w[0] !== en && w[1] !== ar)).slice(0, 3);
+    const opts = shuffle([[en, ar], ...wrong]).map(w => type === "toAr" ? w[1] : w[0]);
+    return { type, en, ar, opts, answer: type === "toAr" ? ar : en };
+  });
+  quiz = { qs, i: 0, score: 0, answered: false };
+  renderQuestion();
+}
+function renderQuestion() {
+  const q = quiz.qs[quiz.i];
+  let head, sub;
+  if (q.type === "toAr") { head = `<h2 class="ltr center">${esc(q.en)} <button class="speak" data-say="${esc(q.en)}">🔊</button></h2>`; sub = "شنو معناها بالعربية؟"; }
+  else if (q.type === "toEn") { head = `<h2 class="center">${esc(q.ar)}</h2>`; sub = "شنو هي الكلمة بالإنجليزية؟"; }
+  else { head = `<h2 class="center"><button class="speak" data-say="${esc(q.en)}" style="width:60px;height:60px;font-size:1.6rem">🔊</button></h2>`; sub = "سمع واختار الكلمة اللي سمعتي"; }
+  document.getElementById("quizBox").innerHTML = `
+    <div class="small">السؤال ${quiz.i + 1} من ${quiz.qs.length}</div>
+    <div class="bar"><div style="width:${quiz.i / quiz.qs.length * 100}%"></div></div>
+    ${head}
+    <p class="small center">${sub}</p>
+    ${q.opts.map(o => `<button class="opt ${q.type === "toAr" ? "" : "ltr"}" data-o="${esc(o)}">${esc(o)}</button>`).join("")}
+    <div id="next"></div>`;
+  if (q.type === "listen") speak(q.en);
+}
+document.getElementById("quizBox").addEventListener("click", e => {
+  const b = e.target.closest(".opt");
+  if (!b || !quiz || quiz.answered || !quiz.qs[quiz.i]) return;
+  quiz.answered = true;
+  const q = quiz.qs[quiz.i];
+  const ok = b.dataset.o === q.answer;
+  if (ok) quiz.score++;
+  document.querySelectorAll(".opt").forEach(x => {
+    if (x.dataset.o === q.answer) x.classList.add("correct");
+    else if (x === b) x.classList.add("wrong");
+  });
+  const last = quiz.i === quiz.qs.length - 1;
+  document.getElementById("next").innerHTML = `<p class="center">${ok ? "✅ صحيح!" : "❌ الجواب: " + esc(q.answer)} <button class="speak" data-say="${esc(q.en)}">🔊</button></p>
+    <button class="btn" id="nextBtn" style="width:100%">${last ? "شوف النتيجة" : "السؤال التالي"}</button>`;
+  document.getElementById("nextBtn").onclick = () => {
+    quiz.answered = false; quiz.i++;
+    if (quiz.i >= quiz.qs.length) finishQuiz(); else renderQuestion();
+  };
+});
+function finishQuiz() {
+  memory.quizzes.push({ date: todayString(), level: memory.level, score: quiz.score, total: quiz.qs.length });
+  markActive(); save();
+  const pct = quiz.score / quiz.qs.length;
+  const msg = pct >= .8 ? "ممتاز! 🌟" : pct >= .5 ? "مزيان، كمّل المراجعة 💪" : "ما كاين مشكل، راجع البطاقات وعاود 🔁";
+  if (pct >= .8) confetti(60);
+  const canUp = pct >= .9 && memory.level < 4;
+  document.getElementById("quizBox").innerHTML = `<h2 class="center">النتيجة: ${quiz.score}/${quiz.qs.length}</h2>
+    <p class="center">${msg}</p>
+    ${canUp ? `<div class="tip">🚀 نتيجتك ممتازة! تقدر تدوز للمستوى الموالي (${LEVELS[memory.level + 1].name}).</div><button class="btn green" id="levelUp" style="width:100%;margin-top:10px">دوز للمستوى الموالي</button>` : ""}
+    <button class="btn" id="again" style="width:100%;margin-top:10px">عاود الاختبار</button>`;
+  document.getElementById("again").onclick = startQuiz;
+  const up = document.getElementById("levelUp");
+  if (up) up.onclick = () => { memory.level++; dlg = null; save(); showTab("home"); };
+}
+
+/* ================= PROGRESS ================= */
+const form = document.getElementById("entryForm");
+const dateInput = document.getElementById("date");
+dateInput.value = todayString();
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const entry = {
+    date: dateInput.value,
+    level: Number(document.getElementById("level").value),
+    minutes: Number(document.getElementById("minutes").value || 0),
+    tasks: document.getElementById("tasks").value.trim(),
+    difficulty: document.getElementById("difficulty").value.trim()
+  };
+  memory.entries = memory.entries.filter(x => x.date !== entry.date);
+  memory.entries.push(entry);
+  memory.entries.sort((a, b) => a.date.localeCompare(b.date));
+  save(); form.reset(); dateInput.value = todayString(); renderProgress();
+});
+function avg(a) { return a.reduce((s, x) => s + x.level, 0) / a.length; }
+function renderProgress() {
+  const entries = memory.entries, report = document.getElementById("report");
+  const today = dayNum(todayString());
+  const days = [...allDays()].map(dayNum);
+  const activeWeek = new Set(days.filter(d => d > today - 7 && d <= today)).size;
+  const week = entries.filter(e => { const d = dayNum(e.date); return d > today - 7 && d <= today; });
+  const prev = entries.filter(e => { const d = dayNum(e.date); return d > today - 14 && d <= today - 7; });
+  const minutes = week.reduce((s, e) => s + e.minutes, 0);
+  let trend = "باقي خاصنا سجلات أكثر باش نعرفو الاتجاه.";
+  if (week.length && prev.length) {
+    const diff = avg(week) - avg(prev);
+    trend = diff >= .3 ? "📈 كاين تقدم مقارنة مع السيمانة اللي فاتت." : diff <= -.3 ? "↘️ المستوى هبط شوية. راجع الدروس القديمة." : "➡️ المستوى مستقر. زيد التدريب على الهضرة بالميكرو.";
+  }
+  const sp = speakAvg();
+  const lastQ = memory.quizzes[memory.quizzes.length - 1];
+  report.innerHTML = `<div class="stats">
+    <div class="stat"><strong>${LEVELS[memory.level].code}</strong><br>المستوى الحالي</div>
+    <div class="stat"><strong><span class="flame">🔥</span> ${streak()}</strong><br>أيام متتالية</div>
+    <div class="stat"><strong>📆 ${allDays().size}</strong><br>مجموع أيام التعلم</div>
+    <div class="stat"><strong>${activeWeek}/7</strong><br>أيام نشاط فآخر سيمانة</div>
+    <div class="stat"><strong>${minutes}</strong><br>دقيقة مسجلة (7 أيام)</div></div>
+    <p><strong>الاتجاه:</strong> ${trend}</p>
+    ${week.length ? `<p><strong>متوسط تقييمك (آخر 7 أيام):</strong> ${avg(week).toFixed(1)} من 5</p>` : ""}
+    ${sp !== null ? `<p><strong>متوسط النطق (آخر 30 محاولة):</strong> ${sp}%</p>` : ""}
+    ${lastQ ? `<p><strong>آخر اختبار:</strong> ${lastQ.score}/${lastQ.total} (${esc(lastQ.date)})</p>` : ""}
+    <p class="small">هي مؤشرات تقريبية، ماشي اختبار رسمي للمستوى.</p>`;
+  const h = document.getElementById("history");
+  h.innerHTML = entries.length ? [...entries].reverse().map(e => `<div class="entry"><strong>${esc(e.date)}</strong> — المستوى ${e.level}/5 — ${e.minutes} دقيقة
+    ${e.tasks ? `<br><strong>المهام:</strong> ${esc(e.tasks)}` : ""}${e.difficulty ? `<br><strong>الصعوبة:</strong> ${esc(e.difficulty)}` : ""}
+    <br><button class="btn red" data-del="${esc(e.date)}" style="padding:6px 10px;margin-top:6px">حذف</button></div>`).join("") : '<p class="small">ما كايناش سجلات دابا.</p>';
+  renderCalendar();
+}
+document.getElementById("history").addEventListener("click", e => {
+  const b = e.target.closest("[data-del]"); if (!b) return;
+  memory.entries = memory.entries.filter(x => x.date !== b.dataset.del); save(); renderProgress();
+});
+
+/* Export / Import */
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(memory, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "english-coach-" + todayString() + ".json"; a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change", e => {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const d = JSON.parse(r.result);
+      if (!d || typeof d !== "object") throw 0;
+      const entries = new Map(memory.entries.map(x => [x.date, x]));
+      (Array.isArray(d.entries) ? d.entries : []).forEach(x => { if (x && /^\d{4}-\d{2}-\d{2}$/.test(x.date)) entries.set(x.date, x); });
+      memory.entries = [...entries.values()].sort((a, b) => a.date.localeCompare(b.date));
+      if (Array.isArray(d.lessonsDone)) memory.lessonsDone = [...new Set([...memory.lessonsDone, ...d.lessonsDone])];
+      if (d.known && typeof d.known === "object") memory.known = Object.assign({}, memory.known, d.known);
+      if (Array.isArray(d.quizzes)) memory.quizzes = memory.quizzes.concat(d.quizzes);
+      if (Array.isArray(d.speaking)) memory.speaking = memory.speaking.concat(d.speaking).slice(-300);
+      if (Array.isArray(d.activeDays)) memory.activeDays = [...new Set([...memory.activeDays, ...d.activeDays])];
+      if (LEVELS[d.level]) memory.level = d.level;
+      if (typeof d.name === "string" && d.name) memory.name = d.name;
+      save(); renderHome(); renderProgress(); alert("تم الاستيراد بنجاح ✅");
+    } catch (err) { alert("الفيشي ماشي صحيح."); }
+    e.target.value = "";
+  };
+  r.readAsText(file);
+});
+
+/* ================= CALENDAR & EFFECTS ================= */
+const DOWS = ["إث", "ثل", "أر", "خم", "جم", "سب", "أح"];
+const MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "ماي", "يونيو", "يوليوز", "غشت", "شتنبر", "أكتوبر", "نونبر", "دجنبر"];
+let calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
+function pad2(n) { return String(n).padStart(2, "0"); }
+function longestStreak() {
+  const arr = [...allDays()].map(dayNum).sort((a, b) => a - b);
+  let best = 0, cur = 0, prev = null;
+  arr.forEach(d => { cur = (prev !== null && d === prev + 1) ? cur + 1 : 1; if (cur > best) best = cur; prev = d; });
+  return best;
+}
+function renderStrip() {
+  const days = allDays(), todayS = todayString(), t = dayNum(todayS);
+  let html = "";
+  for (let i = 13; i >= 0; i--) {
+    const dt = new Date((t - i) * 86400000);
+    const ds = dt.toISOString().slice(0, 10);
+    const on = days.has(ds);
+    html += `<div class="d ${on ? "on" : ""} ${ds === todayS ? "today" : ""}" style="animation-delay:${(13 - i) * 30}ms"><div>${DOWS[(dt.getUTCDay() + 6) % 7]}</div><strong>${dt.getUTCDate()}</strong><div>${on ? "✓" : "·"}</div></div>`;
+  }
+  document.getElementById("homeStrip").innerHTML = html;
+  const sorted = [...days].sort();
+  document.getElementById("homeDays").textContent = days.size
+    ? `📆 تعلمتي ${days.size} نهار فالمجموع (من ${sorted[0]}).`
+    : "باقي ما بديتي. أول نهار كتخدم فيه غادي يتسجل بوحدو ✅";
+}
+function renderCalendar() {
+  const days = allDays(), todayS = todayString();
+  const first = new Date(calYear, calMonth, 1);
+  const offset = (first.getDay() + 6) % 7; // Monday = 0
+  const dim = new Date(calYear, calMonth + 1, 0).getDate();
+  const sorted = [...days].sort(), firstActive = sorted[0];
+  let cells = DOWS.map(d => `<div class="dow">${d}</div>`).join("") + '<div class="day empty"></div>'.repeat(offset);
+  let monthCount = 0;
+  for (let d = 1; d <= dim; d++) {
+    const ds = `${calYear}-${pad2(calMonth + 1)}-${pad2(d)}`;
+    const on = days.has(ds);
+    if (on) monthCount++;
+    let cls = "day";
+    if (on) cls += " on"; else if (ds < todayS && firstActive && ds >= firstActive) cls += " missed";
+    if (ds === todayS) cls += " today";
+    if (ds > todayS) cls += " future";
+    cells += `<div class="${cls}" data-ds="${ds}" style="animation-delay:${d * 15}ms">${d}</div>`;
+  }
+  document.getElementById("calendar").innerHTML = cells;
+  document.getElementById("calTitle").textContent = `${MONTHS[calMonth]} ${calYear}`;
+  let missedTotal = 0;
+  if (firstActive) {
+    // today does not count as missed while it is still going on
+    const lastDay = days.has(todayS) ? dayNum(todayS) : dayNum(todayS) - 1;
+    const span = lastDay - dayNum(firstActive) + 1;
+    const within = [...days].filter(d => d <= todayS).length;
+    missedTotal = Math.max(0, span - within);
+  }
+  document.getElementById("calSummary").innerHTML = `<div class="stats">
+    <div class="stat"><strong>${monthCount}</strong><br>نهار فهاد الشهر</div>
+    <div class="stat"><strong>${days.size}</strong><br>مجموع أيام التعلم</div>
+    <div class="stat"><strong>${missedTotal}</strong><br>نهارات فاتتك</div>
+    <div class="stat"><strong>${longestStreak()}</strong><br>أطول سلسلة</div></div>`;
+}
+document.getElementById("calPrev").addEventListener("click", () => { calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; } renderCalendar(); });
+document.getElementById("calNext").addEventListener("click", () => { calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; } renderCalendar(); });
+document.getElementById("calendar").addEventListener("click", e => {
+  const c = e.target.closest("[data-ds]"); if (!c) return;
+  const ds = c.dataset.ds;
+  if (ds > todayString()) return;
+  const inEntries = memory.entries.some(x => x.date === ds);
+  if (memory.activeDays.includes(ds)) {
+    memory.activeDays = memory.activeDays.filter(x => x !== ds);
+    toast(inEntries ? "باقي معلّم حيت عندو تسجيل يومي" : "تحيّد التعليم من هاد النهار");
+  } else if (inEntries) {
+    toast("هاد النهار معلّم من السجلات اليومية. حذفو من هناك."); return;
+  } else {
+    memory.activeDays.push(ds); toast("✅ تعلّم نهار " + ds); confetti(25);
+  }
+  save(); renderCalendar(); renderStrip();
+});
+document.getElementById("openCal").addEventListener("click", () => {
+  showTab("progress");
+  setTimeout(() => { try { document.getElementById("calendar").scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {} }, 150);
+});
+
+function confetti(n) {
+  try { if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return; } catch (e) {}
+  const colors = ["#2463eb", "#16a34a", "#f5b100", "#e11d48", "#7c3aed", "#06b6d4"];
+  for (let i = 0; i < (n || 40); i++) {
+    const p = document.createElement("div"); p.className = "confetti";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.background = colors[i % colors.length];
+    p.style.setProperty("--dx", (Math.random() * 160 - 80) + "px");
+    p.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+    p.style.animationDelay = (Math.random() * 0.4) + "s";
+    p.style.animationDuration = (1.4 + Math.random() * 1.2) + "s";
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 3300);
+  }
+}
+function toast(msg) {
+  const old = document.getElementById("toast"); if (old) old.remove();
+  const t = document.createElement("div"); t.id = "toast"; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+/* ================= START ================= */
+loadVoices();
+renderHome();
+setMode("repeat");
+</script>
+</body>
+</html>
